@@ -7,18 +7,87 @@
 <title>Game</title>
 </head>
 <body>
-<canvas id="SC" width="210" height="420"></canvas>
+<canvas id="SC" width="1500px" height="800px"></canvas>
 <script>
+var bgdLength = 800;
+var bgdWidth = 1500;
 var element = document.getElementById("SC");
 var santaTx = element.getContext("2d");
 
+var direction = {
+		"ArrowRight" : 105,
+		"ArrowLeft" :  315,
+		"ArrowUp": 0,
+		"ArrowDown" : 210
+}
+
+var sy = direction["ArrayDown"];
+var sx = 70;
+var actionArray = [0,70,140];
+var i = 0;
+var santaImg = new Image();
+santaImg.src = "../Resources/santa.png";
+santaImg.onload = drawSanta;
+
+var posX = 0;
+var posY = 0;
+var speed = 1;
+var pace = 5;
+
 var drawSanta = function(){
-	santaTx.drawImage(santaImg,0,0,);
+	santaTx.drawImage(santaImg,sx,sy,70,100,posX,posY,56,84);
 };
 
-var santaImg = new Image();
-	santaImg.src = "../Resources/santa.png";
-	santaImg.onload = drawSanta;
+
+
+document.onkeydown = function(e){
+	if(direction[e.key] === undefined){
+		return;
+	}
+	
+	<!--Up-->
+	if(sy == 0){
+		if(posY - speed*pace > 0)
+			posY -= speed * pace;
+		else{
+			
+		}
+	}
+	<!--Right-->
+	if(sy == 105) {
+		if(posX + speed * pace < bgdWidth-70)
+			posX += speed * pace;
+		else{
+			
+		}
+	}
+	<!--Down-->
+	if(sy == 210){
+		if(posY + speed * pace < bgdLength-105)
+			posY += speed * pace;
+		else{
+			
+		}
+	}
+	<!--Left-->
+	if(sy == 315) {
+		if(posX - speed * pace > 0)
+			posX -= speed * pace;
+		else{
+			
+		}
+	}
+	sy = direction[e.key];
+	if(i<3){
+		sx = actionArray[i];
+		i++;
+	}else if(i==3){
+		sx = actionArray[0];
+		i=1;
+	}
+	santaTx.clearRect(0,0,1500,800);
+	drawSanta();
+}	
 
 </script>
 </body>

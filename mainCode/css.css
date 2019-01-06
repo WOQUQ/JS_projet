@@ -1,6 +1,9 @@
 body{
    background:url(../Resources/background.jpg)  no-repeat center center;
-   background-size:cover;
+   background-size: 1500px 800px;
    background-attachment:fixed;
    background-color:#CCCCCC;
+   background-position-x : 0;
+   background-position-y : 0;
+   
 }
