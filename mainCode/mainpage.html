@@ -11,14 +11,60 @@
 	<canvas id="panel"></canvas>
 	<canvas id="SC" width="800px" height="600px"></canvas>
 	
+	<div class="time_block">
+		<div class="time"></div>
+		<p id="demo"></p>
+	</div>
 	
+	<div class="gift_block">
+		<div class="gift"></div>
+		<p id="demo_gift"></p>
+	</div>
+	
+	<div class="money_block">
+		<div class="money"></div>
+		<p id="demo_money"></p>
+	</div>
+
 	<script type="text/javascript">
-		//_设置显示面板_//
+		var gameover = 0;
+
+		//==显示剩余时间==//
+		var minutes = 3;
+		var seconds = 30;
+		// Update the count down every 1 second
+		var counter = setInterval(function() {
+			if(seconds == 0  && minutes > 0 && gameover == 0){
+				seconds = 59;
+				minutes -= 1;
+				document.getElementById("demo").innerHTML = minutes + " m " + seconds + " s ";
+			}
+			else if(seconds > 0 && minutes >= 0 && gameover == 0){
+				seconds -= 1 ;
+				document.getElementById("demo").innerHTML = minutes + " m " + seconds + " s ";
+			}
+			else if(gameover == 0){
+				clearInterval(counter);
+				document.getElementById("demo").innerHTML = "Game Over";		
+				gameover = 1;
+			}
+		}, 1000);
 		
+		
+		//====//
+		
+		
+		//==显示剩余礼物==//
+		var gift = 100;
+		document.getElementById("demo_gift").innerHTML = gift;
+		//====//
+		
+		//==显示获得金钱==//
+		var money = 0;
+		document.getElementById("demo_money").innerHTML = money;
+		//====//
 
-		//__//
-
-		//_设置圣诞老人_//
+		//==设置圣诞老人==//
 		var bgdLength = 600;
 		var bgdWidth = 800;
 		var element = document.getElementById("SC");
@@ -96,7 +142,7 @@
 			santaTx.clearRect(0, 0, 800, 600);
 			drawSanta();
 		}
-		//__//
+		//====//
 	</script>
 </body>
 </html>
