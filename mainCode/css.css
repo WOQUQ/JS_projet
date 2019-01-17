@@ -1,9 +1,26 @@
-body{
-   background:url(../Resources/background.jpg)  no-repeat center center;
-   background-size: 1500px 800px;
-   background-attachment:fixed;
-   background-color:#CCCCCC;
-   background-position-x : 0;
-   background-position-y : 0;
-   
+body {
+	background-color: rgba(0, 0, 0, 1);
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+#cv {
+	display: block;
+	margin: 50px auto;
+	width: 800px;
+	height: 600px;
+	border: solid 1px black;
+	background-image: url("../Resources/background.jpg");
+	background-repeat: no-repeat;
+}
+#panel{
+	position:absolute;
+	right: 70px;
+	top:100px;
+	width: 250px;
+	height: 250px; 
+	margin: auto;
+	border: solid 0px red;
+	background-size: contain;
+	background-image: url("../Resources/texture.jpg");
 }
