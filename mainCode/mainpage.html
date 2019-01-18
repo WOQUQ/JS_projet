@@ -10,7 +10,7 @@
 	<canvas id="cv"></canvas>
 	<canvas id="panel"></canvas>
 	<canvas id="SC" width="800px" height="600px"></canvas>
-	
+	<canvas id="tree_1"></canvas>
 	<div class="time_block">
 		<div class="time"></div>
 		<p id="demo"></p>
@@ -142,6 +142,24 @@
 			santaTx.clearRect(0, 0, 800, 600);
 			drawSanta();
 		}
+		//====//
+		
+		//==设置无装饰圣诞树==//
+		var tree_1 = document.getElementById("tree_1");
+		var tree_1Tx = tree_1.getContext("2d");
+		var sx_tree_1 = 290;
+		var sy_tree_1 = 210;
+		var x_tree_1 = 50;
+		var y_tree_1 = 50;
+		
+		var tree_1_png = new Image();
+		tree_1_png.src = "../Resources/tree.png";
+		var drawTree_1 = function(){
+			tree_1Tx.drawImage(tree_1_png,sx_tree_1,sy_tree_1,63,80,x_tree_1,y_tree_1,100,50);
+		}
+		tree_1_png.onload = drawTree_1;
+		drawTree_1();
+		//context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 		//====//
 	</script>
 </body>
