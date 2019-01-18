@@ -3,15 +3,31 @@ body {
 	overflow-y: hidden;
 	overflow-x: hidden;
 }
-
-#cv {
-	display: block;
-	margin: 50px auto;
+.canvas-wrapper{
+	position: relative;
 	width: 800px;
 	height: 600px;
-	border: solid 1px black;
+	margin: 50px auto;
+	border: 1px solid black;
+}
+.canvas{
+	width : 800px;
+	height: 600px;
+}
+#santa {
+	top: 0;
+	left: 0;
 	background-image: url("../Resources/background.jpg");
 	background-repeat: no-repeat;
+}
+#lutin{
+	top: 0;
+	left: 0;
+	background-image: none;
+
+}
+.canvas{
+	position : absolute;
 }
 #panel{
 	position:absolute;

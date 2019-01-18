@@ -1,148 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="css.css" type="text/css">
-<script src="js.js"></script>
-<meta charset="utf-8">
-<title>Game</title>
+    <link rel="stylesheet" href="css.css" type="text/css">
+    <meta charset="utf-8">
+    <title>Game</title>
 </head>
 <body>
-	<canvas id="cv"></canvas>
-	<canvas id="panel"></canvas>
-	<canvas id="SC" width="800px" height="600px"></canvas>
-	
-	<div class="time_block">
-		<div class="time"></div>
-		<p id="demo"></p>
-	</div>
-	
-	<div class="gift_block">
-		<div class="gift"></div>
-		<p id="demo_gift"></p>
-	</div>
-	
-	<div class="money_block">
-		<div class="money"></div>
-		<p id="demo_money"></p>
-	</div>
+<canvas id="panel"></canvas>
+<div class="canvas-wrapper">
+    <canvas id="santa" class="canvas" width="800px" height="600px"></canvas>
+    <canvas id="lutin" class="canvas" width="800px" height="600px"></canvas>
+</div>
+<div class="time_block">
+    <div class="time"></div>
+    <p id="demo"></p>
+</div>
 
-	<script type="text/javascript">
-		var gameover = 0;
+<div class="gift_block">
+    <div class="gift"></div>
+    <p id="demo_gift"></p>
+</div>
 
-		//==显示剩余时间==//
-		var minutes = 3;
-		var seconds = 30;
-		// Update the count down every 1 second
-		var counter = setInterval(function() {
-			if(seconds == 0  && minutes > 0 && gameover == 0){
-				seconds = 59;
-				minutes -= 1;
-				document.getElementById("demo").innerHTML = minutes + " m " + seconds + " s ";
-			}
-			else if(seconds > 0 && minutes >= 0 && gameover == 0){
-				seconds -= 1 ;
-				document.getElementById("demo").innerHTML = minutes + " m " + seconds + " s ";
-			}
-			else if(gameover == 0){
-				clearInterval(counter);
-				document.getElementById("demo").innerHTML = "Game Over";		
-				gameover = 1;
-			}
-		}, 1000);
-		
-		
-		//====//
-		
-		
-		//==显示剩余礼物==//
-		var gift = 100;
-		document.getElementById("demo_gift").innerHTML = gift;
-		//====//
-		
-		//==显示获得金钱==//
-		var money = 0;
-		document.getElementById("demo_money").innerHTML = money;
-		//====//
-
-		//==设置圣诞老人==//
-		var bgdLength = 600;
-		var bgdWidth = 800;
-		var element = document.getElementById("SC");
-		var santaTx = element.getContext("2d");
-
-		var direction = {
-			"ArrowRight" : 105,
-			"ArrowLeft" : 315,
-			"ArrowUp" : 0,
-			"ArrowDown" : 210
-		}
-
-		var sy = direction["ArrayDown"];
-		var sx = 70;
-		var actionArray = [ 0, 70, 140 ];
-		var i = 0;
-		var santaImg = new Image();
-		santaImg.src = "../Resources/santa.png";
-		santaImg.onload = drawSanta;
-
-		var posX = 0;
-		var posY = 0;
-		var speed = 1;
-		var pace = 5;
-
-		var drawSanta = function() {
-			santaTx.drawImage(santaImg, sx, sy, 70, 100, posX, posY, 56, 84);
-		};
-
-		document.onkeydown = function(e) {
-			if (direction[e.key] === undefined) {
-				return;
-			}
-
-			<!--Up-->
-			if (sy == 0) {
-				if (posY - speed * pace > 0)
-					posY -= speed * pace;
-				else {
-
-				}
-			}
-			<!--Right-->
-			if (sy == 105) {
-				if (posX + speed * pace < bgdWidth - 70)
-					posX += speed * pace;
-				else {
-
-				}
-			}
-			<!--Down-->
-			if (sy == 210) {
-				if (posY + speed * pace < bgdLength - 105)
-					posY += speed * pace;
-				else {
-
-				}
-			}
-			<!--Left-->
-			if (sy == 315) {
-				if (posX - speed * pace > 0)
-					posX -= speed * pace;
-				else {
-
-				}
-			}
-			sy = direction[e.key];
-			if (i < 3) {
-				sx = actionArray[i];
-				i++;
-			} else if (i == 3) {
-				sx = actionArray[0];
-				i = 1;
-			}
-			santaTx.clearRect(0, 0, 800, 600);
-			drawSanta();
-		}
-		//====//
-	</script>
+<div class="money_block">
+    <div class="money"></div>
+    <p id="demo_money"></p>
+</div>
+<script src="functionUtil.js"></script>
+<script src="graphic.js"></script>
+<script src="characters.js"></script>
 </body>
 </html>
