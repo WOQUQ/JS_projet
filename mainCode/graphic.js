@@ -29,7 +29,7 @@ document.getElementById("demo_gift").innerHTML = gift;
 //====//
 
 //==显示获得金钱==//
-var money = 0;
+var money = 100;
 document.getElementById("demo_money").innerHTML = money;
 //====//
 
