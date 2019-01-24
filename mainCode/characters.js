@@ -264,18 +264,18 @@ function setFlagToZero(){
     }
 }
 
-function changeSantaType(santa){
+function changeSantaType_1(santa){
+	//console.log("Santa");
 
-    if(santa.santaImg.src == "../Resources/santa.png" ){
         santa.santaImg.src = "../Resources/santaWithBall.png";
-        santa.santaImg.onload = santa.drawDemon();
-    }else{
-        santa.santaImg.src = "../Resources/santa.png";
-        santa.santaImg.onload = santa.drawDemon();
-    }
+
     
 }
-
+function changeSantaType_2(santa){
+	//console.log("Santa");
+	santa.santaImg.src = "../Resources/santa.png";
+    
+}
 function setFlagToOne(){
     for (demon of listDemon){
         demon.flag = 1 ;
@@ -290,9 +290,11 @@ function isCollided(santa, demon)
     var result = (distanceX < (santa.santaWidth+demon.demonWidth)/2 - 25) &&
        (distanceY < (santa.santaHeight+demon.demonHeight)/2 - 25);
     if(result) {
-        audio.play();
-        if(demon.flag == 0)
+        
+        if(demon.flag == 0){
+        	audio.play();
             money -= 5;
+        }
     }
     demon.flag = 1;
     return result;
