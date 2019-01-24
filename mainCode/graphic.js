@@ -33,38 +33,103 @@ var money = 100;
 document.getElementById("demo_money").innerHTML = money;
 //====//
 
+
+
 //==canvas of tree==//
 
-/*var canvas_tree_1 = document.getElementById("tree_1");
-var tree_1Tx = canvas_tree_1.getContext("2d");
+var canvas_tree = document.getElementById("tree");
+var treeTx = canvas_tree.getContext("2d");
 
-function Tree_1() {
-    //this.bgdLength = 600;
-    //this.bgdWidth = 800;
-    //this.treeLength = 500;
-    //this.treeWidth = 500;
+function Tree() {
+    this.posX = randomNum(0,730);//0-730
+	this.posY = randomNum(100,500);//100-500
+//树的类型
+	if(randomNum(1,10)>3){
+	this.type = 0;
+	}else{
+		this.type = 1;
+	}
+	this.foisPour1 = 0;
+	this.showOrNot = true;
+	this.time = new Date().getTime();
+	//window.alert(this.time);
     this.treeImg = new Image();
-    //this.sy = 0;
-    //this.sx = 0;
-    this.posX = 0;
-    this.posY = 0;
-    this.drawTree_1 = function () {
+    this.drawTree = function () {
     	//window.alert(this.treeImg);
-    	tree_1Tx.drawImage(this.treeImg,295,200,55,100,200,200,60,110);
+    	if(this.type == 0){
+    		treeTx.drawImage(this.treeImg,295,200,55,100,this.posX,this.posY,60,110);
+    	}else {
+    		treeTx.drawImage(this.treeImg,295,290,57,100,this.posX,this.posY,60,110);
+    	}
     };
-}
-Tree_1.prototype.init = function () {
+    
+    
+    this.init = function () {
 	//window.alert("init");
-	this.posX = 200;//randomNum(0, 500);
-    this.posY = 200;//randomNum(0, 700);
     this.treeImg.src = "../Resources/tree.png";
-    this.treeImg.onload = this.drawTree_1;
-
+    this.treeImg.onload = this.drawTree;
+    }
+    
+    /*
+    this.cut = function(){
+    	if(this.type == 0){
+    		this.showOrNot = false;
+    	}else{
+    		this.showOrNot = false;
+    	}
+    }*/
     
 }
-var tree_1 = new Tree_1();
-tree_1.init();
-*/
+function showTree()
+{
+	treeTx.clearRect(0, 0, 800, 600);
+
+	//tree.drawTree();
+	for (tree of treeList){
+		if(tree.showOrNot){
+        tree.drawTree();
+		}
+    }
+    
+}
+function addTree(numberOfTree)
+{
+    for( let i = 0 ; i < numberOfTree ; i++)
+    {
+    	var tree = new Tree();
+    	tree.init();
+    	//setInterval("tree.cut();",10000);
+    	treeList.push(tree);
+    }
+}
+function checkTime(){
+	var timeNow = new Date().getTime();
+	for (tree of treeList){
+		if(tree.type == 0){
+			if(timeNow - tree.time  > 20000){
+				tree.showOrNot = false;
+			}
+		}else{
+			if(timeNow - tree.time  > 10000){
+				tree.showOrNot = false;
+			}
+		}
+		}
+}
+var treeList = [];
+var n = 0;
+addTree(1);
+setInterval("addTree(1);",10000)
+setInterval("checkTime();",10);
+
+
+setInterval("showTree();",10);
+//tree.drawTree();
+
+
+
+
+/*
 function Tree(){
 	this.posX = randomNum(0,730);//0-730
 	this.posY = randomNum(100,500);//100-500
@@ -113,7 +178,8 @@ treeImg.onload = function(){
 						+'setTimeout("treeTx.clearRect(nbXList[nb_cut],nbYList[nb_cut],60,110);nb_cut += 1",20000);}nb += 1;',10000);
 		
 
-}/*
+}*/
+/*
 function Tree(){
 	this.posX = randomNum(0,730);//0-730
 	this.posY = randomNum(100,500);//100-500
@@ -149,6 +215,52 @@ var counter = setInterval(function () {
 
 
 
+//====//
 
 
+//==canvas of ball==//
+var canvas_ball = document.getElementById("ball");
+var ballTx = canvas_ball.getContext("2d");
+
+function Ball() {
+    this.posX = randomNum(0,730);//0-730
+	this.posY = randomNum(100,500);//100-500
+	this.showOrNot = true;
+	this.time = new Date().getTime();
+    this.ballImg = new Image();
+    this.drawBall = function () {
+
+    	ballTx.drawImage(this.ballImg,0,0,512,512,this.posX,this.posY,60,60);
+    };
+    this.init = function () {
+        this.ballImg.src = "../Resources/ball.png";
+        this.ballImg.onload = this.drawBall;
+        }
+}
+
+function showBall()
+{
+	ballTx.clearRect(0, 0, 800, 600);
+
+	//tree.drawTree();
+	for (ball of ballList){
+		if(ball.showOrNot){
+        ball.drawBall();
+		}
+    }
+    
+}
+function addBall(numberOfBall)
+{
+    for( let i = 0 ; i < numberOfBall ; i++)
+    {
+    	var ball = new Ball();
+    	ball.init();
+    	//setInterval("tree.cut();",10000);
+    	ballList.push(ball);
+    }
+}
+var ballList = [];
+addBall(1);
+setInterval("showBall();",10);
 //====//
