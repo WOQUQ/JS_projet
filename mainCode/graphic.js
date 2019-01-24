@@ -49,8 +49,8 @@ var canvas_tree = document.getElementById("tree");
 var treeTx = canvas_tree.getContext("2d");
 
 function Tree() {
-  this.posX = randomNum(0,730);//0-730
-	this.posY = randomNum(100,500);//100-500
+  this.posX = randomNum(20,710);//0-730
+	this.posY = randomNum(120,480);//100-500
 //树的类型
 	if(randomNum(1,10)>3){
 	this.type = 0;
@@ -264,8 +264,8 @@ var canvas_ball = document.getElementById("ball");
 var ballTx = canvas_ball.getContext("2d");
 
 function Ball() {
-  this.posX = randomNum(0,730);//0-730
-	this.posY = randomNum(100,500);//100-500
+  this.posX = randomNum(20,710);//0-730
+	this.posY = randomNum(120,480);//100-500
 	this.showOrNot = true;
 	this.time = new Date().getTime();
   this.ballImg = new Image();
@@ -291,17 +291,25 @@ function showBall()
   }
   
 }
-function addBall(numberOfBall)
+function addBall()
 {
-  for( let i = 0 ; i < numberOfBall ; i++)
-  {
+  //for( let i = 0 ; i < numberOfBall ; i++)
+  //{
   	var ball = new Ball();
   	ball.init();
   	//setInterval("tree.cut();",10000);
   	ballList.push(ball);
-  }
+  //}
+}
+function checkTime_ball(){
+	if(minutes == 2 && seconds == 30){
+		addBall();
+	}else if(minutes == 1 && seconds == 10){
+		addBall();
+	}
 }
 var ballList = [];
-addBall(1);
+//addBall(1);
+setInterval("checkTime_ball();",1000);
 setInterval("showBall();",10);
 //====//
