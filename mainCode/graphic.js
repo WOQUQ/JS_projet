@@ -30,10 +30,14 @@ document.getElementById("demo_gift").innerHTML = gift;
 
 //==显示获得金钱==//
 var money = 100;
-document.getElementById("demo_money").innerHTML = money;
+function setMoney() {
+    document.getElementById("demo_money").innerHTML = money;
+}
 //====//
 
 
+
+setInterval("setMoney()",100);
 
 //==canvas of tree==//
 
@@ -124,10 +128,38 @@ setInterval("checkTime();",10);
 
 
 setInterval("showTree();",10);
+
+
+
+/*
+function isCollided_tree(santa, tree)
+{
+
+    var distanceX = Math.abs((santa.posX+santa.santaWidth/2)-(tree.posX+30));
+    var distanceY = Math.abs((santa.posY+santa.santaHeight/2) -(tree.posY+55));
+
+    var result = (distanceX < (santa.santaWidth+60)/2 - 25) &&
+       (distanceY < (santa.santaHeight+110)/2 - 25);
+    if(result) {
+        audio.play();
+        if(tree.type == 0){
+        	gift -= 5;
+        }else{
+        	gift -= 10;
+        }
+    }
+    return result;
+}
 //tree.drawTree();
-
-
-
+function treesCheckCollision(listD)
+{
+    for(tree of listD){
+        if( isCollided(santa,tree)) return true;
+    }
+    return false;
+}
+setInterval("treesCheckCollision(treeList)",500);
+*/
 
 /*
 function Tree(){
