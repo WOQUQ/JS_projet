@@ -30,8 +30,12 @@ document.getElementById("demo_gift").innerHTML = gift;
 
 //==显示获得金钱==//
 var money = 100;
-document.getElementById("demo_money").innerHTML = money;
+function setMoney() {
+    document.getElementById("demo_money").innerHTML = money;
+}
 //====//
+
+setInterval("setMoney()",100);
 
 //==canvas of tree==//
 

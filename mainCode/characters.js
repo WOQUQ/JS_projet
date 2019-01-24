@@ -28,6 +28,9 @@ var directionDemon = [
     96  // "up"
 ];
 
+// audio
+const audio = new Audio("../Resources/sound.mp3");
+
 
 /**
  *  Functions
@@ -41,8 +44,8 @@ function Santa()
     this.bgdWidth = 800;
     this.sy = 210;
     this.sx = 70;
-    this.santaLength = 56;
-    this.santaWidth = 48;
+    this.santaWidth = 56;
+    this.santaHeight = 48;
     this.i = 0;
     this.santaImg = new Image();
 
@@ -61,7 +64,7 @@ function Santa()
     this.drawSanta = function ()
     {
         ctx.drawImage(this.santaImg, this.sx, this.sy, 70, 100, this.posX, this.posY, this.santaWidth,
-                this.santaLength);
+                this.santaHeight);
     }
 
     // Function change the position of Santa
@@ -75,12 +78,12 @@ function Santa()
         }
         <!--Right-->
         if (this.sy == 105) {
-            if (this.posX + this.speed * this.pace < this.bgdWidth - this.santaWidth)
+            if (this.posX + this.speed * this.pace < this.bgdWidth - this.santaHeight)
                 this.posX += this.speed * this.pace;
         }
         <!--Down-->
         if (this.sy == 210) {
-            if (this.posY + this.speed * this.pace < this.bgdLength - this.santaLength)
+            if (this.posY + this.speed * this.pace < this.bgdLength - this.santaWidth)
                 this.posY += this.speed * this.pace;
         }
         <!--Left-->
@@ -111,8 +114,8 @@ function Demon()
 {
     this.bgdLength = 600;
     this.bgdWidth = 800;
-    this.demonLength = 48;
-    this.demonWidth = 32;
+    this.demonWidth = 48;
+    this.demonHeight = 32;
     this.demonImg = new Image();
     this.randomDirection = randomNum(0, 3);
     this.sy = directionDemon[this.randomDirection];
@@ -122,7 +125,7 @@ function Demon()
     //draw demon in the canvas
     this.drawDemon = function () {
         ctx.drawImage(this.demonImg, this.sx, this.sy, 32, 32, this.posX, this.posY, this.demonWidth,
-            this.demonLength);
+            this.demonHeight);
     };
 
     // initialize the object
@@ -167,7 +170,7 @@ function Demon()
         if (this.randomDirection == 0) {
             this.sy = directionDemon[0];
             moveDistance = this.speed * this.pace;
-            if(this.posY + moveDistance < this.bgdLength - this.demonLength)
+            if(this.posY + moveDistance < this.bgdLength - this.demonWidth)
                 this.posY += moveDistance;
             else{
                 this.posY -= moveDistance;
@@ -187,7 +190,7 @@ function Demon()
         if (this.randomDirection == 2) {
             this.sy = directionDemon[2];
             moveDistance = this.speed * this.pace;
-            if(this.posX + moveDistance < this.bgdWidth - this.demonWidth)
+            if(this.posX + moveDistance < this.bgdWidth - this.demonHeight)
                 this.posX += moveDistance;
             else
                 this.posX -= moveDistance;
@@ -235,6 +238,13 @@ function demonsChangePos()
          demon.changePos();
     }
 }
+function demonsCheckCollision(listD)
+{
+    for(demon of listD){
+        if( isCollided(santa,demon)) return true;
+    }
+    return false;
+}
 
 // Listener of keyboard entry
 document.onkeydown = function (e)
@@ -248,12 +258,17 @@ document.onkeydown = function (e)
 
 function isCollided(santa, demon)
 {
-   var distanceX = Math.abs((santa.sx+santa.santaLength/2)-(demon.sx+demon.demonLength/2));
-   var distanceY = Math.abs((santa.sy+santa.santaWidth/2) -(demon.sy+demon.demonWidth/2));
 
-   var result = (distanceX < (santa.santaLength+demon.demonLength)/2) &&
-       (distanceY < (santa.santaWidth+demon.demonWidth)/2);
-   return result;
+    var distanceX = Math.abs((santa.posX+santa.santaWidth/2)-(demon.posX+demon.demonWidth/2));
+    var distanceY = Math.abs((santa.posY+santa.santaHeight/2) -(demon.posY+demon.demonHeight/2));
+
+    var result = (distanceX < (santa.santaWidth+demon.demonWidth)/2 - 25) &&
+       (distanceY < (santa.santaHeight+demon.demonHeight)/2 - 25);
+    if(result) {
+        audio.play();
+        money -= 5;
+    }
+    return result;
 }
 
 
@@ -265,12 +280,9 @@ function isCollided(santa, demon)
 var listDemon = [];
 var santa = new Santa();
 santa.init();
-function checkCollision()
-{
-    console.log("IsCollided : " + isCollided(santa,listDemon[0]));
-}
+
 // 2 demons in the first beginning
 addDemon(5);
 setInterval("draw()",10);
 setInterval("demonsChangePos()",150);
-setInterval("checkCollision()",100);
+setInterval("demonsCheckCollision(listDemon)",500);
