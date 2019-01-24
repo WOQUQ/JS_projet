@@ -121,6 +121,7 @@ function Demon()
     this.sy = directionDemon[this.randomDirection];
     this.sx = 0;
     this.i = 0;
+    this.flag = 0;
 
     //draw demon in the canvas
     this.drawDemon = function () {
@@ -256,6 +257,30 @@ document.onkeydown = function (e)
     santa.changePos(e.key);
 }
 
+
+function setFlagToZero(){
+    for (demon of listDemon){
+        demon.flag = 0 ;
+    }
+}
+
+function changeSantaType(santa){
+
+    if(santa.santaImg.src == "../Resources/santa.png" ){
+        santa.santaImg.src = "../Resources/santaWithBall.png";
+        santa.santaImg.onload = santa.drawDemon();
+    }else{
+        santa.santaImg.src = "../Resources/santa.png";
+        santa.santaImg.onload = santa.drawDemon();
+    }
+    
+}
+
+function setFlagToOne(){
+    for (demon of listDemon){
+        demon.flag = 1 ;
+    }
+}
 function isCollided(santa, demon)
 {
 
@@ -266,8 +291,10 @@ function isCollided(santa, demon)
        (distanceY < (santa.santaHeight+demon.demonHeight)/2 - 25);
     if(result) {
         audio.play();
-        money -= 5;
+        if(demon.flag == 0)
+            money -= 5;
     }
+    demon.flag = 1;
     return result;
 }
 
@@ -282,16 +309,8 @@ var santa = new Santa();
 santa.init();
 
 // 2 demons in the first beginning
-//addDemon(5);
+
 setInterval("draw()",10);
 setInterval("demonsChangePos()",150);
-setInterval("demonsCheckCollision(listDemon)",500);
-
-
-
-
-
-
-
-
-
+setInterval("demonsCheckCollision(listDemon)",10);
+setInterval("setFlagToZero()",200);
