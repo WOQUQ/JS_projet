@@ -282,7 +282,16 @@ var santa = new Santa();
 santa.init();
 
 // 2 demons in the first beginning
-addDemon(5);
+//addDemon(5);
 setInterval("draw()",10);
 setInterval("demonsChangePos()",150);
 setInterval("demonsCheckCollision(listDemon)",500);
+
+
+
+
+
+
+
+
+
