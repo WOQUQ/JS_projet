@@ -168,10 +168,6 @@ function treesCheckCollision(listT)
   return false;
 }
 setInterval("treesCheckCollision(treeList)",10);
-
-
-
-
 //====//
 
 
