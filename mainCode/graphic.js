@@ -1,5 +1,7 @@
 var gameover = 0;
+//==游戏结束==//
 
+//====//
 //==显示剩余时间==//
 var minutes = 3;
 var seconds = 30;
@@ -224,4 +226,33 @@ var ballList = [];
 //addBall(1);
 setInterval("checkTime_ball();",1000);
 setInterval("showBall();",10);
+
+
+
+function isCollided_ball(santa, ball)
+{
+
+  var distanceX = Math.abs((santa.posX+santa.santaWidth/2)-(ball.posX+30));
+  var distanceY = Math.abs((santa.posY+santa.santaHeight/2) -(ball.posY+30));
+  var result = (distanceX < (santa.santaWidth+60)/2 /*- 25*/) &&
+     (distanceY < (santa.santaHeight+60)/2/* - 25*/);
+  if(result && ball.showOrNot) {
+      audio.play();
+      changeSantaType_1(santa);
+      setFlagToOne();
+      ball.showOrNot =false;
+      setTimeout("setFlagToZero();changeSantaType_2(santa);",15000)
+  }
+  return result;
+}
+//tree.drawTree();
+function ballsCheckCollision(listB)
+{
+	console.log(santa.santaImg.src);
+  for(ball of listB){
+      if( isCollided_ball(santa,ball)) return true;
+  }
+  return false;
+}
+setInterval("ballsCheckCollision(ballList)",10);
 //====//
