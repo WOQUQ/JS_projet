@@ -41,6 +41,12 @@ body {
 	background-image: none;
 
 }
+#fin{
+	top: 0;
+	left: 0;
+	background-image: none;
+
+}
 #panel{
 	position:absolute;
 	right: 70px;

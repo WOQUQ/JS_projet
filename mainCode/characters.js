@@ -30,8 +30,8 @@ var directionDemon = [
 
 // audio
 const audio = new Audio("../Resources/sound.mp3");
-
-
+const hohoho = new Audio("../Resources/hohoho.mp3");
+const laugh = new Audio("../Resources/laugh.mp3");
 /**
  *  Functions
  *
@@ -144,6 +144,12 @@ function Demon()
     this.speedUp = function()
     {
         this.speed = this.speed * 3;
+    }
+    this.speedToZero = function(){
+    	this.speed  = 0;
+    }
+    this.speedToOne = function(){
+    	this.speed = 1;
     }
 
     // change the position of demon
@@ -292,8 +298,9 @@ function isCollided(santa, demon)
     if(result) {
         
         if(demon.flag == 0){
-        	audio.play();
-            money -= 5;
+        	laugh.play();
+        	if(money > 0)
+        		money -= 5;
         }
     }
     demon.flag = 1;

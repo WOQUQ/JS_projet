@@ -1,6 +1,38 @@
-var gameover = 0;
-//==游戏结束==//
 
+//==游戏结束==//
+var gameover = 0;
+function checkFin(){
+	if(gameover == 1){
+		var canvas_fin = document.getElementById("fin");
+		var finTx = canvas_fin.getContext("2d");
+		finTx.font = "50px Georgia"
+		//finTx.fillStyle = "#FFFFFF";
+		//finTx.fillRect(0, 0, 800, 600);
+		var gradient=finTx.createLinearGradient(0,0,canvas_fin.width,0);
+		gradient.addColorStop("0","magenta");
+		gradient.addColorStop("0.5","blue");
+		gradient.addColorStop("1.0","red");
+		// 用渐变填色
+		finTx.fillStyle=gradient;
+		finTx.fillText("You lost with "+gift+" gifts remaining",50,200);
+		setTimeout("window.alert('GAME OVER');location.reload();",100);
+	}else if(gameover == 2){
+		var canvas_fin = document.getElementById("fin");
+		var finTx = canvas_fin.getContext("2d");
+		finTx.font = "50px Georgia"
+		//finTx.fillStyle = "#FFFFFF";
+		//finTx.fillRect(0, 0, 800, 600);
+		var gradient=finTx.createLinearGradient(0,0,canvas_fin.width,0);
+		gradient.addColorStop("0","magenta");
+		gradient.addColorStop("0.5","blue");
+		gradient.addColorStop("1.0","red");
+		// 用渐变填色
+		finTx.fillStyle=gradient;
+		finTx.fillText("You won with "+money+" euros",120,200);
+		setTimeout("window.alert('GAME OVER');location.reload();",100);
+	}
+}
+setInterval("checkFin();",100);
 //====//
 //==显示剩余时间==//
 var minutes = 3;
@@ -29,16 +61,22 @@ var counter = setInterval(function () {
 var gift = 100;
 function setGift() {
 document.getElementById("demo_gift").innerHTML = gift;
+if(gift <=0){
+	gameover = 2;
 }
-setInterval("setGift()",100);
+}
+setInterval("setGift();",100);
 //====//
 
 //==显示获得金钱==//
 var money = 100;
 function setMoney() {
   document.getElementById("demo_money").innerHTML = money;
+  if(money <=0){
+		gameover = 1;
+	}
 }
-setInterval("setMoney()",100);
+setInterval("setMoney();",100);
 //====//
 
 
@@ -148,16 +186,20 @@ function isCollided_tree(santa, tree)
 
   var distanceX = Math.abs((santa.posX+santa.santaWidth/2)-(tree.posX+30));
   var distanceY = Math.abs((santa.posY+santa.santaHeight/2) -(tree.posY+55));
-  var result = (distanceX < (santa.santaWidth+60)/2 /*- 25*/) &&
-     (distanceY < (santa.santaHeight+110)/2/* - 25*/);
+  var result = (distanceX < (santa.santaWidth+60)/2 ) &&
+     (distanceY < (santa.santaHeight+110)/2 );
   if(result && tree.showOrNot) {
       audio.play();
-      if(tree.type == 0){
+      if(tree.type == 0 && gift>0){
       	gift -= 5;
-      }else{
-      	gift -= 10;
+      }else {
+    	  if(gift == 5){
+    		  gift -=5;
+    	  }else if(gift >10)
+    		  gift -= 10;
       }
       tree.showOrNot =false;
+      hohoho.play();
   }
   return result;
 }
@@ -220,6 +262,10 @@ function checkTime_ball(){
 		addBall();
 	}else if(minutes == 1 && seconds == 10){
 		addBall();
+	}else if(minutes == 0 && seconds == 20){
+		for (demon of listDemon){
+	        demon.speedUp();
+	    }
 	}
 }
 var ballList = [];
@@ -240,15 +286,29 @@ function isCollided_ball(santa, ball)
       audio.play();
       changeSantaType_1(santa);
       setFlagToOne();
+      
       ball.showOrNot =false;
-      setTimeout("setFlagToZero();changeSantaType_2(santa);",15000)
+      
+      var startTime = new Date().getTime();
+      var interval = setInterval(function(){
+          if(new Date().getTime() - startTime > 15000){
+              clearInterval(interval);
+              return;
+          }
+          setFlagToOne();
+          for (demon of listDemon){
+  	        demon.speedToZero();
+  	    }
+      }, 1);
+      
+      setTimeout("setFlagToZero();changeSantaType_2(santa);for (demon of listDemon){demon.speedToOne();}",15000);
   }
   return result;
 }
 //tree.drawTree();
 function ballsCheckCollision(listB)
 {
-	console.log(santa.santaImg.src);
+	
   for(ball of listB){
       if( isCollided_ball(santa,ball)) return true;
   }
