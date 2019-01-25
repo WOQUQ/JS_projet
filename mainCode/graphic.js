@@ -14,29 +14,48 @@ var ballTx = canvas_ball.getContext("2d");
 var canvas_tree = document.getElementById("tree");
 var treeTx = canvas_tree.getContext("2d");
 
+var chanceBonus = 1;
 
 // Check if the game is over (win/lose)
 function checkFin(){
-	if(gameover == 1){
+	if(gameover == 1)
+	{
+		if(chanceBonus == 0)
+		{
+			var canvas_fin = document.getElementById("fin");
+			var finTx = canvas_fin.getContext("2d");
+			finTx.font = "50px Georgia"
+			//finTx.fillStyle = "#FFFFFF";
+			//finTx.fillRect(0, 0, 800, 600);
+			var gradient=finTx.createLinearGradient(0,0,canvas_fin.width,0);
+			gradient.addColorStop("0","magenta");
+			gradient.addColorStop("0.5","blue");
+			gradient.addColorStop("1.0","red");
+			// 用渐变填色
+			finTx.fillStyle=gradient;
+			finTx.fillText("You lost with "+gift+" gifts remaining",50,200);
+			setTimeout("window.alert('GAME OVER');location.reload();",100);
+		}
+		if (chanceBonus == 1){
+			chanceBonus -=1;
+			askQuestion();
+			var result = winOrLose();
+			if(result == 1){
+				gameover = 0;
+				if(money <= 0) money = 50;
+				if(minutes == 0 && seconds <= 0) second +=59;
+				santa.posX = 0;
+				santa.posY = 0;
+			}else{
+				
+			}
+		}
+	}
+	else if(gameover == 2)
+	{
 		var canvas_fin = document.getElementById("fin");
 		var finTx = canvas_fin.getContext("2d");
 		finTx.font = "50px Georgia"
-		//finTx.fillStyle = "#FFFFFF";
-		//finTx.fillRect(0, 0, 800, 600);
-		var gradient=finTx.createLinearGradient(0,0,canvas_fin.width,0);
-		gradient.addColorStop("0","magenta");
-		gradient.addColorStop("0.5","blue");
-		gradient.addColorStop("1.0","red");
-		// 用渐变填色
-		finTx.fillStyle=gradient;
-		finTx.fillText("You lost with "+gift+" gifts remaining",50,200);
-		setTimeout("window.alert('GAME OVER');location.reload();",100);
-	}else if(gameover == 2){
-		var canvas_fin = document.getElementById("fin");
-		var finTx = canvas_fin.getContext("2d");
-		finTx.font = "50px Georgia"
-		//finTx.fillStyle = "#FFFFFF";
-		//finTx.fillRect(0, 0, 800, 600);
 		var gradient=finTx.createLinearGradient(0,0,canvas_fin.width,0);
 		gradient.addColorStop("0","magenta");
 		gradient.addColorStop("0.5","blue");
@@ -167,7 +186,9 @@ function checkTime(){
 		}
 		}
 	if(minutes == 3 && seconds == 30){
+		bgm1.stop();
 		bgm1.play();
+		
 	}
 	if(minutes == 1 && seconds == 42){
 		bgm2.play();
