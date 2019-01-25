@@ -55,7 +55,7 @@ function sound(src)
 		this.sound.play();
 	}
 	this.stop = function(){
-		this.sound.stop();
+		this.sound.pause();
 	}
 }
 
