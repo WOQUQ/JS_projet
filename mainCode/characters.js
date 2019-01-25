@@ -28,7 +28,14 @@ var directionDemon = [
     96  // "up"
 ];
 
-
+//Arrays of action and direction (Demon_player)
+var actionDemonArray_player = [0, 32, 64];
+var directionDemon_player = [
+    0, //"down" s 
+    32, // "left" a 
+    64, // "right" d
+    96  // "up" w
+];
 
 
 // audio
@@ -238,6 +245,63 @@ function Demon()
         }
 
     }
+    this.changePos_player = function(key)
+    {
+    	var moveDistance = 0;
+        // Down
+        if (key == "down") {
+        	console.log("down");
+            this.sy = directionDemon_player[0];
+            moveDistance = this.speed * this.pace;
+            if(this.posY + moveDistance < this.bgdLength - this.demonWidth)
+                this.posY += moveDistance;
+            else{
+                this.posY -= moveDistance;
+            }
+        }
+        // Left
+        if (key == "left") {
+        	console.log("left");
+            this.sy = directionDemon_player[1];
+            moveDistance = -1 * this.speed * this.pace;
+            if(this.posX + moveDistance > 0)
+                this.posX += moveDistance;
+            else{
+                this.posX -= moveDistance;
+            }
+        }
+        // Right
+        if (key == "right") {
+        	console.log("right");
+            this.sy = directionDemon_player[2];
+            moveDistance = this.speed * this.pace;
+            if(this.posX + moveDistance < this.bgdWidth - this.demonHeight)
+                this.posX += moveDistance;
+            else
+                this.posX -= moveDistance;
+        }
+        // Up
+        if (key == "up") {
+        	console.log("up");
+            this.sy = directionDemon_player[3];
+            moveDistance = -1 * this.speed * this.pace;
+            if(this.posY + moveDistance > 0 )
+                this.posY += moveDistance;
+            else{
+                this.posY -= moveDistance;
+            }
+        }
+
+        
+     // change the move action of demon
+        if (this.i < 3) {
+            this.sx = actionDemonArray[this.i];
+            this.i++;
+        } else if (this.i == 3) {
+            this.sx = actionDemonArray[0];
+            this.i = 1;
+        }
+    }
 }
 
 //draw all the objects in the canvas
@@ -246,7 +310,7 @@ function draw()
     ctx.clearRect(0, 0, 800, 600);
 
     santa.drawSanta();
-
+    demon_player.drawDemon();
     for (demon of listDemon){
         demon.drawDemon();
     }
@@ -280,18 +344,58 @@ function demonsCheckCollision(listD)
 // Listener of keyboard entry
 document.onkeydown = function (e)
 {
+	console.log(e.which);
+
+	/**
+	 *     0, //"down" s 
+    32, // "left" a 
+    64, // "right" d
+    96  // "up" w
+	 *  w 87
+
+
+ a 65
+
+
+ s 83
+
+
+ d 68
+	 * @returns
+	 */
+	
+	if(e.which == 68) 
+		demon_player.changePos_player("right");
+	if(e.which ==  65)
+		demon_player.changePos_player("left");
+	if(e.which ==  83) 
+		demon_player.changePos_player("down");
+	if(e.which ==  87)
+		demon_player.changePos_player("up");
+	
+	//i = e.getKeyCode;  
+	console.log(e.which);
 
     if (directionSanta[e.key] === undefined) {
+    	//console.log("undefined");
         return;
-    }
+    }else{
+    	//console.log("santa");
     santa.changePos(e.key);
+    }
+    
+    
+    
+    
 }
+
 
 
 function setFlagToZero(){
     for (demon of listDemon){
         demon.flag = 0 ;
     }
+    demon_player.flag = 0;
 }
 
 function changeSantaType_1(santa){
@@ -310,6 +414,7 @@ function setFlagToOne(){
     for (demon of listDemon){
         demon.flag = 1 ;
     }
+    demon_player.flag = 1;
 }
 function isCollided(santa, demon)
 {
@@ -338,11 +443,22 @@ function isCollided(santa, demon)
 
 // A list to store all the demons
 var listDemon = [];
+//var listDemon_player = [];
 var santa = new Santa();
 santa.init();
+var demon_player = new Demon();
+demon_player.init();
+demon_player.posX = 750;
+demon_player.posY = 550;
+//listDemon_player.push(demon_player);
+demon_player.demonImg.src = "../Resources/lutin_player.png";
+
 
 // 2 demons in the first beginning
 setInterval("draw()",10);
 setInterval("demonsChangePos()",150);
 setInterval("demonsCheckCollision(listDemon)",10);
+setInterval("isCollided(santa, demon_player)",10);
 setInterval("setFlagToZero()",200);
+
+//setInterval("changePos_demon(demon_player)",10);
