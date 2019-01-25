@@ -43,9 +43,10 @@ function checkFin(){
 			if(result == 1){
 				gameover = 0;
 				if(money <= 0) money = 50;
-				if(minutes == 0 && seconds <= 0) second +=59;
+				if(minutes == 0 && seconds <= 0) seconds +=59;
 				santa.posX = 0;
 				santa.posY = 0;
+				document.getElementById("demo").innerHTML = minutes + " m " + seconds + " s ";
 			}else{
 				
 			}
@@ -83,6 +84,7 @@ var counter = setInterval(function () {
       gameover = 1;
   }
 }, 1000);
+
 
 //==显示剩余礼物==//
 var gift = 100;
@@ -185,7 +187,7 @@ function checkTime(){
 			}
 		}
 		}
-	if(minutes == 3 && seconds == 30){
+	if(minutes == 3 && seconds == 29){
 		bgm1.stop();
 		bgm1.play();
 		
