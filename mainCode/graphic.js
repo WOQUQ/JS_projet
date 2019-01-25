@@ -1,6 +1,21 @@
 
-//==游戏结束==//
+// Flag of game status
 var gameover = 0;
+
+// Time left variable
+var minutes = 3;
+var seconds = 30;
+
+//==canvas of ball==//
+var canvas_ball = document.getElementById("ball");
+var ballTx = canvas_ball.getContext("2d");
+
+//==canvas of tree==//
+var canvas_tree = document.getElementById("tree");
+var treeTx = canvas_tree.getContext("2d");
+
+
+// Check if the game is over (win/lose)
 function checkFin(){
 	if(gameover == 1){
 		var canvas_fin = document.getElementById("fin");
@@ -32,11 +47,8 @@ function checkFin(){
 		setTimeout("window.alert('GAME OVER');location.reload();",100);
 	}
 }
-setInterval("checkFin();",100);
-//====//
-//==显示剩余时间==//
-var minutes = 3;
-var seconds = 30;
+
+
 //Update the count down every 1 second
 var counter = setInterval(function () {
   if (seconds == 0 && minutes > 0 && gameover == 0) {
@@ -53,10 +65,6 @@ var counter = setInterval(function () {
   }
 }, 1000);
 
-
-//====//
-
-
 //==显示剩余礼物==//
 var gift = 100;
 function setGift() {
@@ -65,8 +73,6 @@ if(gift <=0){
 	gameover = 2;
 }
 }
-setInterval("setGift();",100);
-//====//
 
 //==显示获得金钱==//
 var money = 100;
@@ -76,70 +82,60 @@ function setMoney() {
 		gameover = 1;
 	}
 }
-setInterval("setMoney();",100);
-//====//
 
 
-
-
-
-//==canvas of tree==//
-
-var canvas_tree = document.getElementById("tree");
-var treeTx = canvas_tree.getContext("2d");
-
-function Tree() {
-  this.posX = randomNum(20,710);//0-730
+// Definition of the object tree
+function Tree() 
+{
+	this.posX = randomNum(20,710);//0-730
 	this.posY = randomNum(120,480);//100-500
-//树的类型
-	if(randomNum(1,10)>3){
-	this.type = 0;
-	}else{
+	
+	//Type of tree
+	if(randomNum(1,10)>3)
+	{
+		this.type = 0;
+	}
+	else
+	{
 		this.type = 1;
 	}
-	this.foisPour1 = 0;
 	this.showOrNot = true;
 	this.time = new Date().getTime();
-	//window.alert(this.time);
-  this.treeImg = new Image();
-  this.drawTree = function () {
-  	//window.alert(this.treeImg);
-  	if(this.type == 0){
-  		treeTx.drawImage(this.treeImg,295,200,55,100,this.posX,this.posY,60,110);
-  	}else {
-  		treeTx.drawImage(this.treeImg,295,290,57,100,this.posX,this.posY,60,110);
-  	}
-  };
+
+	this.treeImg = new Image();
+	this.drawTree = function () {
+	  	if(this.type == 0)
+	  	{
+	  		treeTx.drawImage(this.treeImg,295,200,55,100,this.posX,this.posY,60,110);
+	  	}
+	  	else
+	  	{
+	  		treeTx.drawImage(this.treeImg,295,290,57,100,this.posX,this.posY,60,110);
+	  	}
+	};
   
   
-  this.init = function () {
-	//window.alert("init");
-  this.treeImg.src = "../Resources/tree.png";
-  this.treeImg.onload = this.drawTree();
-  }
-  
-  /*
-  this.cut = function(){
-  	if(this.type == 0){
-  		this.showOrNot = false;
-  	}else{
-  		this.showOrNot = false;
-  	}
-  }*/
-  
+	this.init = function () {
+		this.treeImg.src = "../Resources/tree.png";
+		this.treeImg.onload = this.drawTree();
+	}
 }
+
+// Show all the tree in the canvasTree
 function showTree()
 {
 	treeTx.clearRect(0, 0, 800, 600);
 
 	//tree.drawTree();
 	for (tree of treeList){
-		if(tree.showOrNot){
-      tree.drawTree();
+		if(tree != null){
+			tree.drawTree();
 		}
   }
   
 }
+
+// add one/some trees in the listTree
 function addTree(numberOfTree)
 {
   for( let i = 0 ; i < numberOfTree ; i++)
@@ -155,39 +151,36 @@ function addTree(numberOfTree)
   	}
   }
 }
+
+// Set the time 10s/20s to erase the tree
 function checkTime(){
 	var timeNow = new Date().getTime();
 	for (tree of treeList){
 		if(tree.type == 0){
 			if(timeNow - tree.time  > 20000){
-				tree.showOrNot = false;
+				treeList.remove(tree);
 			}
-		}else{
+		}else if (tree.type == 1){
 			if(timeNow - tree.time  > 10000){
-				tree.showOrNot = false;
+				treeList.remove(tree);
 			}
 		}
 		}
+	if(minutes == 3 && seconds == 30){
+		bgm1.play();
+	}
+	if(minutes == 1 && seconds == 42){
+		bgm2.play();
+	}
 }
-var treeList = [];
-var n = 0;
-addTree(1);
-setInterval("addTree(1);",10000)
-setInterval("checkTime();",10);
 
-
-setInterval("showTree();",10);
-
-
-
-
+// Check single tree collision with santa
 function isCollided_tree(santa, tree)
 {
 
   var distanceX = Math.abs((santa.posX+santa.santaWidth/2)-(tree.posX+30));
   var distanceY = Math.abs((santa.posY+santa.santaHeight/2) -(tree.posY+55));
-  var result = (distanceX < (santa.santaWidth+60)/2 ) &&
-     (distanceY < (santa.santaHeight+110)/2 );
+  var result = (distanceX < (santa.santaWidth+60)/2 -25  ) && (distanceY < (santa.santaHeight+110)/2  -25 );
   if(result && tree.showOrNot) {
       audio.play();
       if(tree.type == 0 && gift>0){
@@ -198,12 +191,13 @@ function isCollided_tree(santa, tree)
     	  }else if(gift >10)
     		  gift -= 10;
       }
-      tree.showOrNot =false;
+      treeList.remove(tree);
       hohoho.play();
   }
   return result;
 }
-//tree.drawTree();
+
+// Check tree/trees collision event
 function treesCheckCollision(listT)
 {
   for(tree of listT){
@@ -211,14 +205,8 @@ function treesCheckCollision(listT)
   }
   return false;
 }
-setInterval("treesCheckCollision(treeList)",10);
-//====//
 
-
-//==canvas of ball==//
-var canvas_ball = document.getElementById("ball");
-var ballTx = canvas_ball.getContext("2d");
-
+// Definition of Ball Object
 function Ball() {
   this.posX = randomNum(20,710);//0-730
 	this.posY = randomNum(120,480);//100-500
@@ -235,11 +223,11 @@ function Ball() {
       }
 }
 
+// Display all the balls in the ballList
 function showBall()
 {
 	ballTx.clearRect(0, 0, 800, 600);
 
-	//tree.drawTree();
 	for (ball of ballList){
 		if(ball.showOrNot){
       ball.drawBall();
@@ -247,6 +235,8 @@ function showBall()
   }
   
 }
+
+// Add a ball to ballList
 function addBall()
 {
   //for( let i = 0 ; i < numberOfBall ; i++)
@@ -257,6 +247,8 @@ function addBall()
   	ballList.push(ball);
   //}
 }
+
+// Set the time when ball show ip
 function checkTime_ball(){
 	if(minutes == 2 && seconds == 30){
 		addBall();
@@ -268,20 +260,13 @@ function checkTime_ball(){
 	    }
 	}
 }
-var ballList = [];
-//addBall(1);
-setInterval("checkTime_ball();",1000);
-setInterval("showBall();",10);
 
-
-
+// check ball collision
 function isCollided_ball(santa, ball)
 {
-
   var distanceX = Math.abs((santa.posX+santa.santaWidth/2)-(ball.posX+30));
   var distanceY = Math.abs((santa.posY+santa.santaHeight/2) -(ball.posY+30));
-  var result = (distanceX < (santa.santaWidth+60)/2 /*- 25*/) &&
-     (distanceY < (santa.santaHeight+60)/2/* - 25*/);
+  var result = (distanceX < (santa.santaWidth+60)/2 /*- 25*/) && (distanceY < (santa.santaHeight+60)/2/* - 25*/);
   if(result && ball.showOrNot) {
       audio.play();
       changeSantaType_1(santa);
@@ -299,13 +284,14 @@ function isCollided_ball(santa, ball)
           for (demon of listDemon){
   	        demon.speedToZero();
   	    }
-      }, 1);
+      }, 100);
       
       setTimeout("setFlagToZero();changeSantaType_2(santa);for (demon of listDemon){demon.speedToOne();}",15000);
   }
   return result;
 }
-//tree.drawTree();
+
+// check ball/balls and Santa collision
 function ballsCheckCollision(listB)
 {
 	
@@ -314,5 +300,21 @@ function ballsCheckCollision(listB)
   }
   return false;
 }
+
+
+
+
+var ballList = [];
+var treeList = [];
+var n = 0;
+addTree(1);
+setInterval("setGift();",100);
+setInterval("setMoney();",100);
+setInterval("treesCheckCollision(treeList)",1);
+setInterval("addTree(1);",10000)
+setInterval("checkTime();",10);
+setInterval("showTree();",10);
+setInterval("checkTime_ball();",1000);
+setInterval("showBall();",10);
 setInterval("ballsCheckCollision(ballList)",10);
-//====//
+setInterval("checkFin();",100);

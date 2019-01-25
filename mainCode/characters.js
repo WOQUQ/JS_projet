@@ -28,14 +28,38 @@ var directionDemon = [
     96  // "up"
 ];
 
+
+
+
 // audio
-const audio = new Audio("../Resources/sound.mp3");
-const hohoho = new Audio("../Resources/hohoho.mp3");
-const laugh = new Audio("../Resources/laugh.mp3");
+const audio = new sound("../Resources/sound.mp3");
+const hohoho = new sound("../Resources/hohoho.mp3");
+const laugh = new sound("../Resources/laugh.mp3");
+const bgm1 = new sound("../Resources/wish u christmas.mp3");
+const bgm2 = new sound("../Resources/wish u christmas.mp3");
 /**
  *  Functions
  *
  */
+
+// Sound
+function sound(src)
+{
+	this.sound = document.createElement("audio");
+	this.sound.src = src;
+	this.sound.setAttribute("preload","autos");
+	this.sound.setAttribute("controls","none");
+	this.sound.style.display = "none";
+	document.body.appendChild(this.sound);
+	this.play = function(){
+		this.sound.play();
+	}
+	this.stop = function(){
+		this.sound.stop();
+	}
+}
+
+
 
 // Definition of the object Santa
 function Santa()
@@ -318,7 +342,6 @@ var santa = new Santa();
 santa.init();
 
 // 2 demons in the first beginning
-
 setInterval("draw()",10);
 setInterval("demonsChangePos()",150);
 setInterval("demonsCheckCollision(listDemon)",10);
