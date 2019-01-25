@@ -209,7 +209,7 @@ function isCollided_tree(santa, tree)
       }else {
     	  if(gift == 5){
     		  gift -=5;
-    	  }else if(gift >10)
+    	  }else if(gift >=10)
     		  gift -= 10;
       }
       treeList.remove(tree);
