@@ -250,7 +250,7 @@ function Demon()
     	var moveDistance = 0;
         // Down
         if (key == "down") {
-        	console.log("down");
+        	//console.log("down");
             this.sy = directionDemon_player[0];
             moveDistance = this.speed * this.pace;
             if(this.posY + moveDistance < this.bgdLength - this.demonWidth)
@@ -261,7 +261,7 @@ function Demon()
         }
         // Left
         if (key == "left") {
-        	console.log("left");
+        	//console.log("left");
             this.sy = directionDemon_player[1];
             moveDistance = -1 * this.speed * this.pace;
             if(this.posX + moveDistance > 0)
@@ -272,7 +272,7 @@ function Demon()
         }
         // Right
         if (key == "right") {
-        	console.log("right");
+        	//console.log("right");
             this.sy = directionDemon_player[2];
             moveDistance = this.speed * this.pace;
             if(this.posX + moveDistance < this.bgdWidth - this.demonHeight)
@@ -282,7 +282,7 @@ function Demon()
         }
         // Up
         if (key == "up") {
-        	console.log("up");
+        	//console.log("up");
             this.sy = directionDemon_player[3];
             moveDistance = -1 * this.speed * this.pace;
             if(this.posY + moveDistance > 0 )
@@ -344,7 +344,7 @@ function demonsCheckCollision(listD)
 // Listener of keyboard entry
 document.onkeydown = function (e)
 {
-	console.log(e.which);
+
 
 	/**
 	 *     0, //"down" s 
@@ -373,14 +373,12 @@ document.onkeydown = function (e)
 	if(e.which ==  87)
 		demon_player.changePos_player("up");
 	
-	//i = e.getKeyCode;  
-	console.log(e.which);
+
 
     if (directionSanta[e.key] === undefined) {
-    	//console.log("undefined");
         return;
     }else{
-    	//console.log("santa");
+
     santa.changePos(e.key);
     }
     
